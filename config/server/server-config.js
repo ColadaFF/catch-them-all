@@ -5,7 +5,7 @@
     "use strict";
     var Thinky = require("thinky"),
         rethinkDBConfig = {
-            "host": "localhost",
+            "host": "rethinkdb",
             "port": 28015,
             "authKey": "",
             "db": "cta"
