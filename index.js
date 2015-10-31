@@ -5,14 +5,14 @@
         Hapi = require("hapi"),
         Good = require("good"),
         moment = require("moment"),
-        /*
-         * Configuration files
-         * */
+    /*
+     * Configuration files
+     * */
         serverConf = require("./config/server/server-config"),
 
-        /*
-         * Server Instance
-         * */
+    /*
+     * Server Instance
+     * */
         server = new Hapi.Server(),
 
         /**
@@ -21,11 +21,17 @@
         Thinky = serverConf.thinky,
 
 
-        /*
-        * Model instances
-        * */
+        /**
+         * Model instances
+         * */
+        EventsModel = require("./models/EventsModel")(Thinky, moment),
+        CriminalsModel = require("./models/CriminalsModel")(Thinky),
 
-        EventsModel = require("./models/EventsModel")(Thinky, moment);
+
+        /**
+         * ServerRoutesFile
+         */
+        RoutesFile = require("./Routes/Routes");
 
 
     /**
@@ -33,9 +39,20 @@
      * */
     server.connection(serverConf.hapi);
 
+    /**
+     * Server bind
+     */
+    server.bind({
+        "Thinky": Thinky,
+        "Events": EventsModel,
+        "Criminals": CriminalsModel
+    });
 
+    /**
+     * Server Routes
+     */
 
-
+    server.route(RoutesFile);
 
 
     /**
