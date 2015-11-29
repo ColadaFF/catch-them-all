@@ -4,7 +4,8 @@
 (function() {
     "use strict";
     var _ = require("lodash"),
-        request = require("request");
+        request = require("request"),
+        solrCriminals = require('../index/criminals');
     exports.sayHi = function(request, response) {
         var Criminals = this.Criminals;
         response({
@@ -17,10 +18,13 @@
         var Criminal = this.Criminals,
             criminalsAPI = require('../generators/criminals'),
             criminals = criminalsAPI.criminals;
-            console.log(criminals);
+        console.log(criminals);
         Criminal
             .save(criminals)
             .then(function(data) {
+                process.nextTick(function() {
+                    solrCriminals.index(data);
+                });
                 response({
                     "data": data
                 });
@@ -65,6 +69,14 @@
                     })
                 }
             });
+    }
+
+    function searchCriminal(request, response) {
+        solrCriminals.search(request.query.q, function(err, res) {
+            response({
+                "data": _.get(res, 'response.docs', [])
+            });
+        });
     }
 
     function getCriminal(request, response) {
@@ -151,4 +163,5 @@
     exports.getCriminal = getCriminal;
     exports.deleteCriminal = deleteCriminal;
     exports.generateCriminals = generateCriminals;
+    exports.searchCriminal = searchCriminal;
 }());

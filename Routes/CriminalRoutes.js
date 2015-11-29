@@ -25,6 +25,11 @@
             method: "PUT",
             path: endpoint + "/generate",
             handler: Criminals.generateCriminals
+        },
+        {
+            method: "GET",
+            path: endpoint + "/search",
+            handler: Criminals.searchCriminal
         }
     ];
 }(module));
