@@ -9,9 +9,8 @@
                 "idNumber": type.number(),
                 "name": type.string(),
                 "lastName": type.string(),
-                "aliases": type.array().schema([
-                    type.string()
-                ]),
+                "alias": type.string(),
+                "picture": type.string(),
                 "profile": type.object().schema({
                     "photo": type.buffer(),
                     "kindStrikes": type.array().schema([
@@ -26,6 +25,8 @@
                     "kindDress": type.string()
                 }),
                 classification: type.number()
+            }, {
+                pk: "idNumber"
             });
         return criminalsModel;
     };

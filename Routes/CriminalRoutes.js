@@ -10,6 +10,16 @@
             "method": "GET",
             "path": endpoint,
             "handler": Criminals.getAll
+        },
+        {
+            "method": "GET",
+            "path": endpoint + "/{id}",
+            "handler": Criminals.getCriminal
+        },
+        {
+            "method": "POST",
+            "path": endpoint,
+            "handler": Criminals.saveCriminal
         }
     ];
 }(module));
