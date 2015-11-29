@@ -1,18 +1,18 @@
-(function () {
+(function() {
     "use strict";
     var _ = require("lodash"),
         Async = require("async"),
         Hapi = require("hapi"),
         Good = require("good"),
         moment = require("moment"),
-    /*
-     * Configuration files
-     * */
+        /*
+         * Configuration files
+         * */
         serverConf = require("./config/server/server-config"),
 
-    /*
-     * Server Instance
-     * */
+        /*
+         * Server Instance
+         * */
         server = new Hapi.Server(),
 
         /**
@@ -69,12 +69,12 @@
                 }
             }]
         }
-    }, function (err) {
+    }, function(err) {
         if (err) {
             throw err; // something bad happened loading the plugin
         }
 
-        server.start(function () {
+        server.start(function() {
             server.log('info', 'Server running at: ' + server.info.uri);
         });
     });

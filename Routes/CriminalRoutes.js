@@ -20,6 +20,11 @@
             "method": "POST",
             "path": endpoint,
             "handler": Criminals.saveCriminal
+        },
+        {
+            method: "PUT",
+            path: endpoint + "/generate",
+            handler: Criminals.generateCriminals
         }
     ];
 }(module));

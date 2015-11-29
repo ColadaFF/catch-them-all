@@ -12,7 +12,6 @@
                 "alias": type.string(),
                 "picture": type.string(),
                 "profile": type.object().schema({
-                    "photo": type.buffer(),
                     "kindStrikes": type.array().schema([
                         type.string()
                     ])
