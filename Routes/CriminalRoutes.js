@@ -30,6 +30,11 @@
             method: "GET",
             path: endpoint + "/search",
             handler: Criminals.searchCriminal
+        },
+        {
+            method: 'PUT',
+            path: endpoint + '/{id}',
+            handler: Criminals.updateCriminal
         }
     ];
 }(module));

@@ -14,6 +14,30 @@
     };
 
 
+    function updateCriminal(request, response) {
+        var Criminal = this.Criminals,
+            Thinky = this.Thinky,
+            Query = Thinky.Query,
+            r = Thinky.r,
+            criminalQuery = new Query(Criminal, r);
+        console.log(request.payload);
+        Criminal
+            .get(request.params.id)
+            .update(request.payload.criminal)
+            .run()
+            .then(function(data) {
+                response({
+                    "data": data
+                });
+            })
+            .error(function(reason) {
+                response({
+                    "Message": "There was an error querying the Criminals table",
+                    "Error": reason
+                })
+            });
+    }
+
     function generateCriminals(request, response) {
         var Criminal = this.Criminals,
             criminalsAPI = require('../generators/criminals'),
@@ -111,11 +135,28 @@
 
     function saveCriminal(request, response) {
         var Criminal = this.Criminals;
-        getCriminalsAPI(Criminal, function(data) {
-            response({
-                "data": data
+        Criminal
+            .save(request.body.criminal)
+            .then(function(data) {
+                process.nextTick(function() {
+                    solrCriminals.index(data);
+                });
+                response({
+                    "data": data
+                });
+            })
+            .error(function(reason) {
+                if (_.isEmpty(reason)) {
+                    response({
+                        "data": []
+                    }).code(200);
+                } else {
+                    response({
+                        "Message": "There was an error querying the Criminals table",
+                        "Error": reason
+                    })
+                }
             });
-        });
     }
 
     function deleteCriminal(request, response) {
@@ -164,4 +205,5 @@
     exports.deleteCriminal = deleteCriminal;
     exports.generateCriminals = generateCriminals;
     exports.searchCriminal = searchCriminal;
+    exports.updateCriminal = updateCriminal;
 }());
